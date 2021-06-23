@@ -8,7 +8,7 @@
 
 [![Total Downloads](https://poser.pugx.org/yii-extension/bootstrap5/downloads.png)](https://packagist.org/packages/yii-extension/bootstrap5)
 [![Build Status](https://github.com/yii-extension/bootstrap5/workflows/build/badge.svg)](https://github.com/yii-extension/bootstrap5/actions?query=workflow%3Abuild)
-[![codecov](https://codecov.io/gh/yii-extension/bootstrap5/branch/main/graph/badge.svg?token=KB6T5KMGED)](https://codecov.io/gh/yii-extension/bootstrap5)
+[![codecov](https://codecov.io/gh/yii-extension/bootstrap5/branch/master/graph/badge.svg?token=9c397F54S0)](https://codecov.io/gh/yii-extension/bootstrap5)
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https://badge-api.stryker-mutator.io/github.com/yii-extension/bootstrap5/master)](https://dashboard.stryker-mutator.io/reports/github.com/yii-extension/bootstrap5/master)
 [![static analysis](https://github.com/yii-extension/bootstrap5/workflows/static%20analysis/badge.svg)](https://github.com/yii-extension/bootstrap5/actions?query=workflow%3A%22static+analysis%22)
 [![type-coverage](https://shepherd.dev/github/yii-extension/bootstrap5/coverage.svg)](https://shepherd.dev/github/yii-extension/bootstrap5)
