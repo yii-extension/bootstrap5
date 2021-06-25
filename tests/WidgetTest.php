@@ -30,7 +30,7 @@ final class WidgetTest extends TestCase
     {
         StubWidget::counter(0);
 
-        $id = StubWidget::widget()->id('test-2')->render();
+        $id = StubWidget::widget()->id('test-2')->withoutAutoGenerateId()->render();
 
         $this->assertSame('<run-test-2>', $id);
     }

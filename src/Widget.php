@@ -13,6 +13,7 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     protected array $attributes = [];
     private string $id = '';
     private string $autoIdPrefix = 'w';
+    private bool $autoGenerate = true;
     private static int $counter = 0;
 
     /**
@@ -70,6 +71,18 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     }
 
     /**
+     * Disable auto generate id.
+     *
+     * @return static
+     */
+    public function withoutAutoGenerateId(): self
+    {
+        $new = clone $this;
+        $new->autoGenerate = false;
+        return $new;
+    }
+
+    /**
      * Returns the Id of the widget.
      *
      * @return string Id of the widget.
@@ -78,8 +91,8 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     {
         $new = clone $this;
 
-        if ($new->id === '') {
-            $new->id = $new->autoIdPrefix . self::$counter++;
+        if ($new->autoGenerate) {
+            $new->id = $new->autoIdPrefix . static::$counter++;
         }
 
         return $new->id;

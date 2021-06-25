@@ -19,8 +19,9 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
-        "roave/infection-static-analysis-plugin": "^1.8.0",
-        "vimeo/psalm": "^4.4"
+        "roave/infection-static-analysis-plugin": "^1.8",
+        "vimeo/psalm": "^4.8",
+        "yiisoft/var-dumper": "^1.1.0"
     },
     "autoload": {
         "psr-4": {
@@ -39,11 +40,5 @@
     },
     "config": {
         "sort-packages": true
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/SamMousa/foxy"
-        }
-    ]
+    }
 }
