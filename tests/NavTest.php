@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Bootstrap5\Tests;
 
-use Yiisoft\Yii\Bootstrap5\Dropdown;
+use InvalidArgumentException;
 use Yii\Extension\Bootstrap5\Nav;
 
 /**
@@ -14,6 +14,75 @@ use Yii\Extension\Bootstrap5\Nav;
  */
 final class NavTest extends TestCase
 {
+    /**
+     * @link https://github.com/yiisoft/yii2-bootstrap/issues/96
+     * @link https://github.com/yiisoft/yii2-bootstrap/issues/157
+     */
+    public function testDeepActivateParents(): void
+    {
+        Nav::counter(0);
+
+        $html = Nav::widget()
+            ->activateParents()
+            ->items([
+                [
+                    'label' => 'Dropdown',
+                    'items' => [
+                        [
+                            'label' => 'Sub-dropdown',
+                            'items' => [
+                                ['label' => 'Page', 'url' => '#', 'active' => true],
+                            ],
+                        ],
+                    ],
+                ],
+            ])
+            ->render();
+        $expected = <<<'HTML'
+        <ul id="w0-nav" class="nav">
+        <li class="nav-item dropdown">
+        <a id="w2-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Dropdown</a>
+        <ul class="dropdown-menu" active aria-labelledby="w2-dropdown">
+        <a id="w1-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Sub-dropdown</a>
+        <ul class="dropdown-menu" active aria-labelledby="w1-dropdown">
+        <a class="dropdown-item active" href="#">Page</a>
+        </ul>
+        </ul>
+        </li>
+        </ul>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $html);
+    }
+
+    /**
+     * @see https://github.com/yiisoft/yii2-bootstrap/issues/162
+     */
+    public function testExplicitActive(): void
+    {
+        Nav::counter(0);
+
+        $html = Nav::widget()
+            ->withoutActivateItems()
+            ->items([
+                [
+                    'label' => 'Item1',
+                    'active' => true,
+                ],
+                [
+                    'label' => 'Item2',
+                    'url' => '/site/index',
+                ],
+            ])
+            ->render();
+        $expected = <<<'HTML'
+        <ul id="w0-nav" class="nav">
+        <li class="nav-item"><a class="nav-link" href="#">Item1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/site/index">Item2</a></li>
+        </ul>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $html);
+    }
+
     public function testFillAndJustify(): void
     {
         Nav::counter(0);
@@ -90,6 +159,13 @@ final class NavTest extends TestCase
         $this->assertEqualsWithoutLE($expected, $html);
     }
 
+    public function testMissingLabel(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("The 'label' option is required.");
+        Nav::widget()->items([['content' => 'Page1']])->render();
+    }
+
     public function testPills(): void
     {
         Nav::counter(0);
@@ -152,6 +228,11 @@ final class NavTest extends TestCase
                     'url' => '#',
                     'disabled' => true,
                 ],
+                [
+                    'label' => 'Not visible',
+                    'url' => '#',
+                    'visible' => false,
+                ],
             ])
             ->render();
         $expected = <<<'HTML'
@@ -165,6 +246,67 @@ final class NavTest extends TestCase
         $this->assertEqualsWithoutLE($expected, $html);
     }
 
+        /**
+     * @see https://github.com/yiisoft/yii2-bootstrap/issues/96
+     * @see https://github.com/yiisoft/yii2-bootstrap/issues/157
+     */
+    public function testRenderItemsDeepActivateParents(): void
+    {
+        Nav::counter(0);
+
+        $html = Nav::widget()
+            ->activateParents()
+            ->items([
+                [
+                    'label' => 'Dropdown',
+                    'items' => [
+                        [
+                            'label' => 'Sub-Dropdown-1',
+                            'items' => [
+                                ['label' => 'Page', 'content' => 'Page', 'url' => "#", 'active' => true],
+                            ],
+                        ],
+                    ],
+                ],
+            ])
+            ->render();
+        $expected = <<<'HTML'
+        <ul id="w0-nav" class="nav">
+        <li class="nav-item dropdown">
+        <a id="w2-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Dropdown</a>
+        <ul class="dropdown-menu" active aria-labelledby="w2-dropdown">
+        <a id="w1-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Sub-Dropdown-1</a>
+        <ul class="dropdown-menu" active aria-labelledby="w1-dropdown">
+        <a class="dropdown-item active" href="#">Page</a>
+        </ul>
+        </ul>
+        </li>
+        </ul>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $html);
+    }
+
+    public function testRenderItemsEncodeLabels(): void
+    {
+        Nav::counter(0);
+
+        $html = Nav::widget()
+            ->items([
+                [
+                    'label' => 'Encode & Labels',
+                    'url' => '#',
+                    'encode' => true,
+                ],
+            ])
+            ->render();
+        $expected = <<<'HTML'
+        <ul id="w0-nav" class="nav">
+        <li class="nav-item"><a class="nav-link" href="#">Encode &amp;amp; Labels</a></li>
+        </ul>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $html);
+    }
+
     public function testRenderItemsDropdown(): void
     {
         Nav::counter(0);
@@ -172,38 +314,41 @@ final class NavTest extends TestCase
         $html = Nav::widget()
             ->items([
                 [
-                    'label' => 'Active',
+                    'label' => 'Disable',
                     'url' => '#',
+                    'disabled' => true,
                 ],
                 [
-                    'label' => 'Dropdown1',
+                    'label' => 'Dropdown 1',
                     'items' => [
-                        ['label' => 'Page2', 'content' => 'Page2', 'url' => "#", 'active' => true],
-                        ['label' => 'Page3', 'content' => 'Page3', 'url' => "#"],
+                        ['label' => 'Page 1', 'url' => "#", 'active' => true],
+                        ['label' => 'Page 2', 'url' => "#"],
                     ]
                 ],
                 [
-                    'label' => 'Dropdown2',
+                    'label' => 'Dropdown 2',
                     'items' => [
-                        ['label' => 'Page2', 'content' => 'Page4','url' => "#"],
-                        ['label' => 'Page3', 'content' => 'Page5', 'url' => "#"],
+                        ['label' => 'Page 3', 'url' => "#"],
+                        ['label' => 'Page 4', 'url' => "#"],
                     ]
                 ],
             ])
             ->render();
         $expected = <<<'HTML'
         <ul id="w0-nav" class="nav">
-        <li class="nav-item"><a class="nav-link" href="#">Active</a></li>
-        <li id="w1-dropdown" class="dropdown nav-item"><a class="dropdown-toggle nav-link" href="#" data-bs-toggle="dropdown">Dropdown1</a>
-        <ul class="dropdown-menu" aria-expanded="false" aria-labelledby="w1-dropdown">
-        <li><a class="dropdown-item active" href="#">Page2</a></li>
-        <li><a class="dropdown-item" href="#">Page3</a></li>
+        <li class="nav-item"><a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disable</a></li>
+        <li class="nav-item dropdown">
+        <a id="w1-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Dropdown 1</a>
+        <ul class="dropdown-menu" aria-labelledby="w1-dropdown">
+        <a class="dropdown-item active" href="#">Page 1</a>
+        <a class="dropdown-item" href="#">Page 2</a>
         </ul>
         </li>
-        <li id="w2-dropdown" class="dropdown nav-item"><a class="dropdown-toggle nav-link" href="#" data-bs-toggle="dropdown">Dropdown2</a>
-        <ul class="dropdown-menu" aria-expanded="false" aria-labelledby="w2-dropdown">
-        <li><a class="dropdown-item" href="#">Page2</a></li>
-        <li><a class="dropdown-item" href="#">Page3</a></li>
+        <li class="nav-item dropdown">
+        <a id="w2-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Dropdown 2</a>
+        <ul class="dropdown-menu" aria-labelledby="w2-dropdown">
+        <a class="dropdown-item" href="#">Page 3</a>
+        <a class="dropdown-item" href="#">Page 4</a>
         </ul>
         </li>
         </ul>
@@ -221,36 +366,39 @@ final class NavTest extends TestCase
                 [
                     'label' => 'Disable',
                     'url' => '/disable',
+                    'disabled' => true,
                 ],
                 [
-                    'label' => 'Dropdown1',
+                    'label' => 'Dropdown 1',
                     'items' => [
-                        ['label' => 'Page1', 'content' => 'Page1', 'url' => "/page1"],
-                        ['label' => 'Page2', 'content' => 'Page2', 'url' => "/page2"],
-                    ]
+                        ['label' => 'Page 1', 'url' => "/page1"],
+                        ['label' => 'Page 2', 'url' => "/page2"],
+                    ],
                 ],
                 [
-                    'label' => 'Dropdown2',
+                    'label' => 'Dropdown 2',
                     'items' => [
-                        ['label' => 'Page3', 'content' => 'Page3','url' => "/page3"],
-                        ['label' => 'Page4', 'content' => 'Page4', 'url' => "/page4"],
-                    ]
+                        ['label' => 'Page 3', 'url' => "/page3"],
+                        ['label' => 'Page 4', 'url' => "/page4"],
+                    ],
                 ],
             ])
             ->render();
         $expected = <<<'HTML'
         <ul id="w0-nav" class="nav">
-        <li class="nav-item"><a class="nav-link" href="/disable">Disable</a></li>
-        <li id="w1-dropdown" class="dropdown nav-item"><a class="dropdown-toggle nav-link" href="#" data-bs-toggle="dropdown">Dropdown1</a>
-        <ul class="dropdown-menu" aria-expanded="false" aria-labelledby="w1-dropdown">
-        <li><a class="dropdown-item" href="/page1">Page1</a></li>
-        <li><a class="dropdown-item" href="/page2">Page2</a></li>
+        <li class="nav-item"><a class="nav-link disabled" href="/disable" tabindex="-1" aria-disabled="true">Disable</a></li>
+        <li class="nav-item dropdown">
+        <a id="w1-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Dropdown 1</a>
+        <ul class="dropdown-menu" aria-labelledby="w1-dropdown">
+        <a class="dropdown-item" href="/page1">Page 1</a>
+        <a class="dropdown-item" href="/page2">Page 2</a>
         </ul>
         </li>
-        <li id="w2-dropdown" class="dropdown nav-item"><a class="dropdown-toggle nav-link" href="#" data-bs-toggle="dropdown">Dropdown2</a>
-        <ul class="dropdown-menu" aria-expanded="false" aria-labelledby="w2-dropdown">
-        <li><a class="dropdown-item" href="/page3">Page3</a></li>
-        <li><a class="dropdown-item active" href="/page4">Page4</a></li>
+        <li class="nav-item dropdown">
+        <a id="w2-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Dropdown 2</a>
+        <ul class="dropdown-menu" aria-labelledby="w2-dropdown">
+        <a class="dropdown-item" href="/page3">Page 3</a>
+        <a class="dropdown-item active" href="/page4">Page 4</a>
         </ul>
         </li>
         </ul>

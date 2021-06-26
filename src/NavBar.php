@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Bootstrap5;
 
-use JsonException;
 use Yiisoft\Html\Html;
 
 /**
  * NavBar renders a navbar HTML component.
  *
  * Any content enclosed between the {@see begin()} and {@see end()} calls of NavBar is treated as the content of the
- * navbar. You may use widgets such as {@see Nav} or {@see \Yiisoft\Widget\Menu} to build up such content. For example,
+ * navbar. You may use widgets such as {@see Nav} to build up such content. For example,
  *
  */
 final class NavBar extends Widget
@@ -243,8 +242,6 @@ final class NavBar extends Widget
 
     /**
      * Renders collapsible toggle button.
-     *
-     * @throws JsonException
      *
      * @return string the rendering toggle button.
      *

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Bootstrap5;
 
+use InvalidArgumentException;
 use JsonException;
-use RuntimeException;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Html;
+use Yiisoft\Html\Tag\Li;
 
 use function is_array;
 use function is_string;
@@ -204,8 +205,6 @@ final class Nav extends Widget
     /**
      * Renders widget items.
      *
-     * @throws JsonException|RuntimeException
-     *
      * @return string
      */
     private function renderItems(): string
@@ -236,7 +235,7 @@ final class Nav extends Widget
      *
      * @param array $item the item to render.
      *
-     * @throws JsonException|RuntimeException
+     * @throws InvalidArgumentException
      *
      * @return string the rendering result.
      */
@@ -245,7 +244,7 @@ final class Nav extends Widget
         $new = clone $this;
 
         if (!isset($item['label'])) {
-            throw new RuntimeException("The 'label' option is required.");
+            throw new InvalidArgumentException("The 'label' option is required.");
         }
 
         /** @var string */
@@ -277,13 +276,8 @@ final class Nav extends Widget
 
         if ($items !== []) {
             $urlAttributes['data-bs-toggle'] = 'dropdown';
-            $liAttributes['id'] = "{$new->getId()}-dropdown";
-            $item['dropdownAttributes'] = ['aria-labelledby' => $liAttributes['id']];
-            $items = $new->isChildActive($items, $active);
-            $lines = "\n" . $new->renderDropdown($items, $item) . "\n";
-
-            Html::addCssClass($liAttributes, ['widget' => 'dropdown']);
-            Html::addCssClass($urlAttributes, ['widget' => 'dropdown-toggle']);
+            $items = $new->isChildActive([$item], $active);
+            $lines = $new->renderDropdown($items, $item);
         }
 
         Html::addCssClass($liAttributes, ['nav' => 'nav-item']);
@@ -298,10 +292,17 @@ final class Nav extends Widget
             Html::addCssClass($urlAttributes, ['disabled' => 'disabled']);
         }
 
-        return
-            Html::openTag('li', $liAttributes) .
-                Html::a($itemLabel, $url, $urlAttributes)->encode(false) . $lines .
-            Html::closeTag('li');
+        if ($lines === '') {
+            $html = Li::tag()
+                ->attributes($liAttributes)
+                ->content(Html::a($itemLabel, $url, $urlAttributes)->render())
+                ->encode(false)
+                ->render();
+        } else {
+            $html = Li::tag()->class('nav-item dropdown')->content("\n" . $lines . "\n")->encode(false)->render();
+        }
+
+        return $html;
     }
 
     /**
@@ -332,7 +333,7 @@ final class Nav extends Widget
      *
      * {@see items}
      */
-    private function isChildActive(array $items, bool &$active): array
+    private function isChildActive(array $items, bool &$active = false): array
     {
         $new = clone $this;
 
@@ -356,10 +357,9 @@ final class Nav extends Widget
             $childItems = isset($child['items']) ? $child['items'] : [];
 
             if ($childItems !== [] && is_array($items[$i])) {
-                $activeParent = false;
-                $items[$i]['items'] = $new->isChildActive($childItems, $activeParent);
+                $items[$i]['items'] = $new->isChildActive($childItems);
 
-                if ($activeParent) {
+                if ($active) {
                     $items[$i]['attributes'] = ['active' => true];
                     $active = true;
                 }

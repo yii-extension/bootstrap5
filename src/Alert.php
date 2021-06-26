@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Bootstrap5;
 
-use JsonException;
 use Yiisoft\Html\Html;
 
 use function array_merge;
@@ -52,7 +51,7 @@ final class Alert extends Widget
      *
      * @param string $value
      *
-     * @return self
+     * @return static
      */
     public function body(string $value): self
     {
@@ -79,7 +78,7 @@ final class Alert extends Widget
      *
      * @param array $value
      *
-     * @return self
+     * @return static
      */
     public function closeButtonAttributes(array $value): self
     {
@@ -91,7 +90,7 @@ final class Alert extends Widget
     /**
      * Disable close button.
      *
-     * @return self
+     * @return static
      */
     public function withoutCloseButton(): self
     {
@@ -103,8 +102,6 @@ final class Alert extends Widget
     /**
      * Renders the alert body and the close button (if any).
      *
-     * @throws JsonException
-     *
      * @return string the rendering result
      */
     private function renderBodyEnd(): string
@@ -114,8 +111,6 @@ final class Alert extends Widget
 
     /**
      * Renders the close button.
-     *
-     * @throws JsonException
      *
      * @return string the rendering result
      */
@@ -150,7 +145,7 @@ final class Alert extends Widget
                 ],
             );
 
-            Html::addCssclass($new->closeButtonAttribute, ['buttonattributes' => 'btn-close']);
+            Html::addCssclass($new->closeButtonAttribute, ['buttonAttributes' => 'btn-close']);
             Html::addCssClass($new->attributes, ['alert-dismissible' => 'alert-dismissible']);
         }
 

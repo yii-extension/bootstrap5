@@ -102,25 +102,29 @@ final class NavBarTest extends TestCase
 
         $html = NavBar::widget()->brandText('My Company')->brandUrl('/')->begin();
         $html .= Nav::widget()
-            ->attributes(['class' => ['mr-auto']])
+            ->attributes(['class' => ['navbar-nav me-auto mb-2 mb-lg-0']])
             ->items([
                 ['label' => 'Home', 'url' => '#'],
                 ['label' => 'Link', 'url' => '#'],
-                ['label' => 'Dropdown', 'items' => [
-                    ['label' => 'Action', 'url' => '#'],
-                    ['label' => 'Another action', 'url' => '#'],
-                    '-',
-                    ['label' => 'Something else here', 'url' => '#'],
-                ],
+                [
+                    'label' => 'Dropdown',
+                    'items' => [
+                        ['label' => 'Action', 'url' => '#'],
+                        ['label' => 'Another action', 'url' => '#'],
+                        '-',
+                        ['label' => 'Something else here', 'url' => '#'],
+                    ],
+                    'urlAttributes' => ['class' => 'nav-link'],
                 ],
             ])
             ->render();
-
         $html .= <<<'HTML'
-        <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+
+        <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
+
         HTML;
         $html .= NavBar::end();
         $expected = <<<'HTML'
@@ -131,21 +135,24 @@ final class NavBarTest extends TestCase
         <span class="navbar-toggler-icon"></span>
         </button>
         <div id="w1-collapse" class="collapse navbar-collapse">
-        <ul id="w2-nav" class="mr-auto nav">
+        <ul id="w2-nav" class="navbar-nav me-auto mb-2 mb-lg-0 nav">
         <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-        <li id="w3-dropdown" class="dropdown nav-item"><a class="dropdown-toggle nav-link" href="#" data-bs-toggle="dropdown">Dropdown</a>
-        <ul class="dropdown-menu" aria-expanded="false" aria-labelledby="w3-dropdown">
-        <li><a class="dropdown-item" href="#">Action</a></li>
-        <li><a class="dropdown-item" href="#">Another action</a></li>
-        <li><div class="dropdown-divider"></div></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
+        <li class="nav-item dropdown">
+        <a id="w3-dropdown" class="nav-link dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Dropdown</a>
+        <ul class="dropdown-menu" aria-labelledby="w3-dropdown">
+        <a class="dropdown-item" href="#">Action</a>
+        <a class="dropdown-item" href="#">Another action</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">Something else here</a>
         </ul>
         </li>
-        </ul><form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form></div>
+        </ul>
+        <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        </div>
         </div>
         </nav>
         HTML;

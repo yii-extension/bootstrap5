@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Yii\Extension\Bootstrap5;
 
 use InvalidArgumentException;
-use JsonException;
-use Yiisoft\Arrays\ArrayHelper;
+use ReflectionException;
 use Yiisoft\Html\Html;
+use Yiisoft\Html\Tag\CustomTag;
+use Yiisoft\Html\Tag\Div;
+use Yiisoft\Html\Tag\Span;
 
-use function array_key_exists;
 use function array_merge;
-use function array_merge_recursive;
-use function is_string;
 
 /**
  * Dropdown renders a Bootstrap dropdown menu component.
@@ -20,10 +19,11 @@ use function is_string;
 final class Dropdown extends Widget
 {
     private array $items = [];
-    private bool $encodeLabels = true;
-    private bool $encodeTags = false;
     private array $submenuAttributes = [];
 
+    /**
+     * @throws ReflectionException
+     */
     protected function run(): string
     {
         $new = clone $this;
@@ -53,7 +53,7 @@ final class Dropdown extends Widget
      *
      * @param array $value
      *
-     * @return self
+     * @return static
      */
     public function items(array $value): self
     {
@@ -67,7 +67,7 @@ final class Dropdown extends Widget
      *
      * @param array $value
      *
-     * @return self
+     * @return static
      */
     public function submenuAttributes(array $value): self
     {
@@ -77,24 +77,12 @@ final class Dropdown extends Widget
     }
 
     /**
-     * When tags Labels HTML should not be encoded.
-     *
-     * @return self
-     */
-    public function withoutEncodeLabels(): self
-    {
-        $new = clone $this;
-        $new->encodeLabels = false;
-        return $new;
-    }
-
-    /**
      * Renders menu items.
      *
-     * @throws InvalidArgumentException if the label option is not specified in one of the
-     * items.
+     * @throws InvalidArgumentException|ReflectionException if the label option is not specified in one of the items.
      *
      * @return string the rendering result.
+     *
      * @psalm-suppress ImplicitToStringCast
      */
     private function renderItems(self $new): string
@@ -118,31 +106,31 @@ final class Dropdown extends Widget
                 }
 
                 /** @var array */
-                $items = isset($item['items']) ? $item['items'] : [];
+                $items = $item['items'] ?? [];
 
                 /** @var array */
-                $itemAttributes = isset($item['attributes']) ? $item['attributes'] : [];
+                $itemAttributes = $item['attributes'] ?? [];
 
                 /** @var array */
-                $urlAttributes = isset($item['urlAttributes']) ? $item['urlAttributes'] : [];
+                $urlAttributes = $item['urlAttributes'] ?? [];
 
                 /** @var string */
                 $icon = $item['icon'] ?? '';
 
                 /** @var array */
-                $iconAttributes = $item['iconAttributes'] ?? [];
+                $iconAttributes = isset($item['iconAttributes']) ? $item['iconAttributes'] : [];
 
                 /** @var string */
-                $url = isset($item['url']) ? $item['url'] : '';
+                $url = $item['url'] ?? '';
 
                 /** @var bool */
-                $active = isset($item['active']) ? $item['active'] : false;
+                $active = $item['active'] ?? false;
 
                 /** @var bool */
-                $disabled = isset($item['disable']) ? $item['disable'] : false;
+                $disabled = $item['disable'] ?? false;
 
                 /** @var bool */
-                $enclose = isset($item['enclose']) ? $item['enclose'] : true;
+                $enclose = $item['enclose'] ?? true;
 
                 $itemLabel = $new->renderLabel($itemLabel, $icon, $iconAttributes);
 
@@ -158,13 +146,17 @@ final class Dropdown extends Widget
 
                 if ($items === []) {
                     if ($itemLabel === '-') {
-                        $content = Html::div('', ['class' => 'dropdown-divider']);
+                        $content = Div::tag()->class('dropdown-divider')->render();
                     } elseif ($enclose === false) {
                         $content = $itemLabel;
                     } elseif ($url === '') {
-                        $content = Html::tag('h6', $itemLabel, ['class' => 'dropdown-header']);
+                        $content = CustomTag::name('h6')
+                            ->class('dropdown-header')
+                            ->content($itemLabel)
+                            ->encode(null)
+                            ->render();
                     } else {
-                        $content = Html::a($itemLabel, $url, $urlAttributes)->encode($this->encodeTags);
+                        $content = Html::a($itemLabel, $url, $urlAttributes)->encode(false)->render();
                     }
 
                     $lines[] = $content;
@@ -173,28 +165,31 @@ final class Dropdown extends Widget
                     $submenuAttributes = isset($item['submenuAttributes']) ? $item['submenuAttributes'] : [];
                     $new->submenuAttributes = array_merge($new->submenuAttributes, $submenuAttributes);
 
-                    Html::addCssClass($new->submenuAttributes, ['submenu' => 'dropdown-menu']);
-                    Html::addCssClass($urlAttributes, ['toggle' => 'dropdown-toggle']);
+                    Html::addCssClass($new->submenuAttributes, 'dropdown-menu');
+                    Html::addCssClass($urlAttributes, 'dropdown-toggle');
 
                     $dropdown = self::widget()
                         ->attributes($new->submenuAttributes)
                         ->items($items)
-                        ->submenuAttributes($new->submenuAttributes);
+                        ->submenuAttributes($new->submenuAttributes)
+                        ->render();
 
-
+                    $id = "{$new->getId()}-dropdown";
+                    $urlAttributes['id'] = $id;
+                    $urlAttributes['aria-expanded'] = false;
                     $urlAttributes['data-bs-toggle'] = 'dropdown';
-                    $urlAttributes['aria-haspopup'] = 'true';
                     $urlAttributes['role'] = 'button';
+                    $new->attributes['aria-labelledby'] = $id;
 
-                    $lines[] = Html::a($itemLabel, $url, $urlAttributes)->encode(false) . "\n" .
-                        Html::tag('ul', "\n" . $dropdown->render() . "\n", $itemAttributes)->encode(false) . "\n";
+                    $attributes = array_merge($itemAttributes, $new->attributes);
+
+                    $lines[] = Html::a($itemLabel, $url, $urlAttributes) . "\n" .
+                        CustomTag::name('ul')->attributes($attributes)->content("\n" . $dropdown . "\n")->encode(false);
                 }
             }
         }
 
-        $attributes = array_merge(['aria-expanded' => 'false'], $new->attributes);
-
-        return Html::ul()->attributes($attributes)->strings($lines, [], $this->encodeTags)->render();
+        return implode("\n", $lines);
     }
 
     private function renderLabel(
@@ -205,10 +200,11 @@ final class Dropdown extends Widget
         $html = '';
 
         if ($icon !== '') {
-            $html = "\n" .
-                Html::openTag('span', $iconAttributes) .
-                    Html::tag('i', '', ['class' => $icon]) .
-                Html::closeTag('span') . "\n";
+            $html = Span::tag()
+                ->attributes($iconAttributes)
+                ->content(CustomTag::name('i')->class($icon)->render())
+                ->encode(false)
+                ->render();
         }
 
         if ($label !== '') {
