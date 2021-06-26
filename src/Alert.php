@@ -8,8 +8,6 @@ use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\Button;
 use Yiisoft\Html\Tag\Div;
 
-use function array_merge;
-
 /**
  * Alert renders an alert bootstrap component.
  *
@@ -140,13 +138,8 @@ final class Alert extends Widget
         Html::addCssClass($new->attributes, ['widget' => 'alert']);
 
         if ($new->closeButtonEnabled !== false) {
-            $new->closeButtonAttribute = array_merge(
-                $new->closeButtonAttribute,
-                [
-                    'aria-label' => 'Close',
-                    'data-bs-dismiss' => 'alert',
-                ],
-            );
+            $new->closeButtonAttribute['aria-label'] = 'Close';
+            $new->closeButtonAttribute['data-bs-dismiss'] = 'alert';
 
             Html::addCssclass($new->closeButtonAttribute, ['buttonAttributes' => 'btn-close']);
             Html::addCssClass($new->attributes, ['alert-dismissible' => 'alert-dismissible']);
