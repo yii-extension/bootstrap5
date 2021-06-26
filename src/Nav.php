@@ -8,6 +8,8 @@ use InvalidArgumentException;
 use JsonException;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Html;
+use Yiisoft\Html\Tag\A;
+use Yiisoft\Html\Tag\CustomTag;
 use Yiisoft\Html\Tag\Li;
 
 use function is_array;
@@ -224,7 +226,11 @@ final class Nav extends Widget
         $html = implode("\n", $items);
 
         if ($new->withoutContainer === false) {
-            $html = Html::tag('ul', "\n" . implode("\n", $items) . "\n", $new->attributes)->encode(false)->render();
+            $html = CustomTag::name('ul')
+                ->attributes($new->attributes)
+                ->content("\n" . implode("\n", $items) . "\n")
+                ->encode(false)
+                ->render();
         }
 
         return $html;
@@ -295,7 +301,7 @@ final class Nav extends Widget
         if ($lines === '') {
             $html = Li::tag()
                 ->attributes($liAttributes)
-                ->content(Html::a($itemLabel, $url, $urlAttributes)->render())
+                ->content(A::tag()->attributes($urlAttributes)->content($itemLabel)->url($url)->render())
                 ->encode(false)
                 ->render();
         } else {

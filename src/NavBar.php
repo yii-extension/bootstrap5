@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Yii\Extension\Bootstrap5;
 
 use Yiisoft\Html\Html;
+use Yiisoft\Html\Tag\A;
+use Yiisoft\Html\Tag\Button;
+use Yiisoft\Html\Tag\Img;
+use Yiisoft\Html\Tag\Span;
 
 /**
  * NavBar renders a navbar HTML component.
@@ -215,9 +219,12 @@ final class NavBar extends Widget
         Html::addCssClass($new->brandAttributes, ['widget' => 'navbar-brand']);
 
         if ($new->brandImage !== '') {
-            $brandImage = Html::img($new->brandImage)->render();
-            $brand = Html::a($brandImage, $new->brandUrl, $new->brandAttributes)
+            $brandImage = Img::tag()->url($new->brandImage)->render();
+            $brand = A::tag()
+                ->attributes($new->brandAttributes)
+                ->content($brandImage)
                 ->encode(false)
+                ->url($new->brandUrl)
                 ->render() . "\n";
         }
 
@@ -229,11 +236,14 @@ final class NavBar extends Widget
             }
 
             if (empty($new->brandUrl)) {
-                $brand = Html::span($brandText, $new->brandAttributes)->render();
+                $brand = Span::tag()->attributes($new->brandAttributes)->content($brandText)->render();
             } else {
-                $brand = Html::a($brandText, $new->brandUrl, $new->brandAttributes)
+                $brand = A::tag()
+                    ->attributes($new->brandAttributes)
+                    ->content($brandText)
                     ->encode(false)
-                    ->render()  . "\n";
+                    ->url($new->brandUrl)
+                    ->render() . "\n";
             }
         }
 
@@ -256,21 +266,17 @@ final class NavBar extends Widget
 
         Html::addCssClass($new->togglerAttributes, ['widget' => 'navbar-toggler']);
 
-        return Html::button(
-            "\n" . $new->togglerContent . "\n",
-            array_merge(
-                $new->togglerAttributes,
-                [
-                    'type' => 'button',
-                    'data' => [
-                        'bs-toggle' => 'collapse',
-                        'bs-target' => '#' . $id,
-                    ],
-                    'aria-controls' => $id,
-                    'aria-expanded' => 'false',
-                    'aria-label' => $new->screenReaderToggleText,
-                ]
-            )
-        )->encode(false)->render() . "\n";
+        $new->togglerAttributes['aria-controls'] = $id;
+        $new->togglerAttributes['aria-expanded'] = false;
+        $new->togglerAttributes['aria-label'] = $new->screenReaderToggleText;
+        $new->togglerAttributes['data-bs-target'] = $id;
+        $new->togglerAttributes['data-bs-toggle'] = 'collapse';
+        $new->togglerAttributes['type'] = 'button';
+
+        return Button::tag()
+            ->attributes($new->togglerAttributes)
+            ->content("\n" . $new->togglerContent . "\n")
+            ->encode(false)
+            ->render() . "\n";
     }
 }

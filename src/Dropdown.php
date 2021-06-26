@@ -7,6 +7,7 @@ namespace Yii\Extension\Bootstrap5;
 use InvalidArgumentException;
 use ReflectionException;
 use Yiisoft\Html\Html;
+use Yiisoft\Html\Tag\A;
 use Yiisoft\Html\Tag\CustomTag;
 use Yiisoft\Html\Tag\Div;
 use Yiisoft\Html\Tag\Span;
@@ -82,8 +83,6 @@ final class Dropdown extends Widget
      * @throws InvalidArgumentException|ReflectionException if the label option is not specified in one of the items.
      *
      * @return string the rendering result.
-     *
-     * @psalm-suppress ImplicitToStringCast
      */
     private function renderItems(self $new): string
     {
@@ -92,7 +91,7 @@ final class Dropdown extends Widget
         /** @var array|string $item */
         foreach ($new->items as $item) {
             if ($item === '-') {
-                $lines[] = Html::div('', ['class' => 'dropdown-divider']);
+                $lines[] = Div::tag()->class('dropdown-divider')->render();
             } else {
                 if (!isset($item['label']) && $item !== '-') {
                     throw new InvalidArgumentException('The "label" option is required.');
@@ -156,7 +155,12 @@ final class Dropdown extends Widget
                             ->encode(null)
                             ->render();
                     } else {
-                        $content = Html::a($itemLabel, $url, $urlAttributes)->encode(false)->render();
+                        $content = A::tag()
+                            ->attributes($urlAttributes)
+                            ->content($itemLabel)
+                            ->encode(false)
+                            ->url($url)
+                            ->render();
                     }
 
                     $lines[] = $content;
@@ -183,7 +187,7 @@ final class Dropdown extends Widget
 
                     $attributes = array_merge($itemAttributes, $new->attributes);
 
-                    $lines[] = Html::a($itemLabel, $url, $urlAttributes) . "\n" .
+                    $lines[] = A::tag()->attributes($urlAttributes)->content($itemLabel)->url($url) . "\n" .
                         CustomTag::name('ul')->attributes($attributes)->content("\n" . $dropdown . "\n")->encode(false);
                 }
             }

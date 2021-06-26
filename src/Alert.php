@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Yii\Extension\Bootstrap5;
 
 use Yiisoft\Html\Html;
+use Yiisoft\Html\Tag\Button;
+use Yiisoft\Html\Tag\Div;
 
 use function array_merge;
 
@@ -39,10 +41,11 @@ final class Alert extends Widget
 
         $new->loadDefaultAttributes($new);
 
-        return
-            Html::openTag('div', $new->attributes) . "\n" .
-                $new->renderBodyEnd() .
-            Html::closeTag('div');
+        return Div::tag()
+            ->attributes($new->attributes)
+            ->content("\n" . $new->renderBodyEnd())
+            ->encode(false)
+            ->render();
     }
 
     /**
@@ -124,7 +127,7 @@ final class Alert extends Widget
 
         $new->closeButtonAttribute['type'] = 'button';
 
-        return Html::tag('button', '', $new->closeButtonAttribute)->render() . "\n";
+        return Button::tag()->attributes($new->closeButtonAttribute)->render() . "\n";
     }
 
     /**

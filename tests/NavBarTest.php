@@ -30,7 +30,7 @@ final class NavBarTest extends TestCase
         <nav id="w0-navbar" class="navbar-inverse navbar-static-top navbar-frontend navbar">
         <div class="container-fluid">
         <a class="navbar-brand" href="/">My Company</a>
-        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#w1-collapse" aria-controls="w1-collapse" aria-expanded="false" aria-label="Toggle navigation">
+        <button type="button" class="navbar-toggler" aria-controls="w1-collapse" aria-label="Toggle navigation" data-bs-target="w1-collapse" data-bs-toggle="collapse">
         <span class="navbar-toggler-icon"></span>
         </button>
         <div id="w1-collapse" class="collapse navbar-collapse">
@@ -49,7 +49,7 @@ final class NavBarTest extends TestCase
         $html .= NavBar::end();
 
         $this->assertStringContainsString(
-            '<a class="navbar-brand" href="/"><img src="/images/test.jpg" alt=""></a>',
+            '<a class="navbar-brand" href="/"><img src="/images/test.jpg"></a>',
             $html
         );
     }
@@ -91,7 +91,7 @@ final class NavBarTest extends TestCase
         $html .= NavBar::end();
 
         $this->assertStringContainsString(
-            '<a class="navbar-brand" href="/"><img src="/images/test.jpg" alt="">Yii Framework</a>',
+            '<a class="navbar-brand" href="/"><img src="/images/test.jpg">Yii Framework</a>',
             $html
         );
     }
@@ -131,7 +131,7 @@ final class NavBarTest extends TestCase
         <nav id="w0-navbar" class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
         <a class="navbar-brand" href="/">My Company</a>
-        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#w1-collapse" aria-controls="w1-collapse" aria-expanded="false" aria-label="Toggle navigation">
+        <button type="button" class="navbar-toggler" aria-controls="w1-collapse" aria-label="Toggle navigation" data-bs-target="w1-collapse" data-bs-toggle="collapse">
         <span class="navbar-toggler-icon"></span>
         </button>
         <div id="w1-collapse" class="collapse navbar-collapse">
@@ -168,7 +168,7 @@ final class NavBarTest extends TestCase
         $expected = <<<'HTML'
         <nav id="w0-navbar" class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#w1-collapse" aria-controls="w1-collapse" aria-expanded="false" aria-label="Toggle navigation">
+        <button type="button" class="navbar-toggler" aria-controls="w1-collapse" aria-label="Toggle navigation" data-bs-target="w1-collapse" data-bs-toggle="collapse">
         <span class="navbar-toggler-icon"></span>
         </button>
         <div id="w1-collapse" class="testMe collapse navbar-collapse">
@@ -189,7 +189,7 @@ final class NavBarTest extends TestCase
         <nav id="w0-navbar" class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
         <a class="text-dark navbar-brand" href="/">My App</a>
-        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#w1-collapse" aria-controls="w1-collapse" aria-expanded="false" aria-label="Toggle navigation">
+        <button type="button" class="navbar-toggler" aria-controls="w1-collapse" aria-label="Toggle navigation" data-bs-target="w1-collapse" data-bs-toggle="collapse">
         <span class="navbar-toggler-icon"></span>
         </button>
         <div id="w1-collapse" class="collapse navbar-collapse">
@@ -209,7 +209,7 @@ final class NavBarTest extends TestCase
         $expected = <<<'HTML'
         <nav id="w0-navbar" class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#w1-collapse" aria-controls="w1-collapse" aria-expanded="false" aria-label="Toggler navigation">
+        <button type="button" class="navbar-toggler" aria-controls="w1-collapse" aria-label="Toggler navigation" data-bs-target="w1-collapse" data-bs-toggle="collapse">
         <span class="navbar-toggler-icon"></span>
         </button>
         <div id="w1-collapse" class="collapse navbar-collapse">
@@ -229,7 +229,7 @@ final class NavBarTest extends TestCase
         $expected = <<<'HTML'
         <nav id="w0-navbar" class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#w1-collapse" aria-controls="w1-collapse" aria-expanded="false" aria-label="Toggle navigation">
+        <button type="button" class="navbar-toggler" aria-controls="w1-collapse" aria-label="Toggle navigation" data-bs-target="w1-collapse" data-bs-toggle="collapse">
         <div class="navbar-toggler-icon"></div>
         </button>
         <div id="w1-collapse" class="collapse navbar-collapse">
@@ -249,7 +249,7 @@ final class NavBarTest extends TestCase
         $expected = <<<'HTML'
         <nav id="w0-navbar" class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-        <button type="button" class="testMe navbar-toggler" data-bs-toggle="collapse" data-bs-target="#w1-collapse" aria-controls="w1-collapse" aria-expanded="false" aria-label="Toggle navigation">
+        <button type="button" class="testMe navbar-toggler" aria-controls="w1-collapse" aria-label="Toggle navigation" data-bs-target="w1-collapse" data-bs-toggle="collapse">
         <span class="navbar-toggler-icon"></span>
         </button>
         <div id="w1-collapse" class="collapse navbar-collapse">
@@ -269,7 +269,7 @@ final class NavBarTest extends TestCase
         $expected = <<<'HTML'
         <nav id="w0-navbar" class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="text-link">
-        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#w1-collapse" aria-controls="w1-collapse" aria-expanded="false" aria-label="Toggle navigation">
+        <button type="button" class="navbar-toggler" aria-controls="w1-collapse" aria-label="Toggle navigation" data-bs-target="w1-collapse" data-bs-toggle="collapse">
         <span class="navbar-toggler-icon"></span>
         </button>
         <div id="w1-collapse" class="collapse navbar-collapse">
