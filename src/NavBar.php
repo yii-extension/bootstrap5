@@ -53,18 +53,18 @@ final class NavBar extends Widget
         Html::addCssClass($new->collapseAttributes, ['collapse' => 'collapse', 'widget' => 'navbar-collapse']);
 
         return
-            Html::openTag('nav', $new->attributes) . "\n" .
-            Html::openTag('div', $new->containerAttributes) . "\n" .
+            Html::openTag('nav', $new->attributes) . PHP_EOL .
+            Html::openTag('div', $new->containerAttributes) . PHP_EOL .
             $new->renderBrand() .
             $new->renderToggleButton() .
-            Html::openTag('div', $new->collapseAttributes) . "\n";
+            Html::openTag('div', $new->collapseAttributes) . PHP_EOL;
     }
 
     protected function run(): string
     {
         return
-            Html::closeTag('div') . "\n" .
-            Html::closeTag('div') . "\n" .
+            Html::closeTag('div') . PHP_EOL .
+            Html::closeTag('div') . PHP_EOL .
             Html::closeTag('nav');
     }
 
@@ -225,7 +225,7 @@ final class NavBar extends Widget
                 ->content($brandImage)
                 ->encode(false)
                 ->url($new->brandUrl)
-                ->render() . "\n";
+                ->render() . PHP_EOL;
         }
 
         if ($new->brandText !== '') {
@@ -243,7 +243,7 @@ final class NavBar extends Widget
                     ->content($brandText)
                     ->encode(false)
                     ->url($new->brandUrl)
-                    ->render() . "\n";
+                    ->render() . PHP_EOL;
             }
         }
 
@@ -275,8 +275,8 @@ final class NavBar extends Widget
 
         return Button::tag()
             ->attributes($new->togglerAttributes)
-            ->content("\n" . $new->togglerContent . "\n")
+            ->content(PHP_EOL . $new->togglerContent . PHP_EOL)
             ->encode(false)
-            ->render() . "\n";
+            ->render() . PHP_EOL;
     }
 }

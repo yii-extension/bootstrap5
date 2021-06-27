@@ -187,13 +187,16 @@ final class Dropdown extends Widget
 
                     $attributes = array_merge($itemAttributes, $new->attributes);
 
-                    $lines[] = A::tag()->attributes($urlAttributes)->content($itemLabel)->url($url) . "\n" .
-                        CustomTag::name('ul')->attributes($attributes)->content("\n" . $dropdown . "\n")->encode(false);
+                    $lines[] = A::tag()->attributes($urlAttributes)->content($itemLabel)->url($url) . PHP_EOL .
+                        CustomTag::name('ul')
+                            ->attributes($attributes)
+                            ->content(PHP_EOL . $dropdown . PHP_EOL)
+                            ->encode(false);
                 }
             }
         }
 
-        return implode("\n", $lines);
+        return implode(PHP_EOL, $lines);
     }
 
     private function renderLabel(

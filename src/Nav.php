@@ -224,12 +224,12 @@ final class Nav extends Widget
             }
         }
 
-        $html = implode("\n", $items);
+        $html = implode(PHP_EOL, $items);
 
         if ($new->withoutContainer === false) {
             $html = CustomTag::name('ul')
                 ->attributes($new->attributes)
-                ->content("\n" . implode("\n", $items) . "\n")
+                ->content(PHP_EOL . implode(PHP_EOL, $items) . PHP_EOL)
                 ->encode(false)
                 ->render();
         }
@@ -306,7 +306,7 @@ final class Nav extends Widget
                 ->encode(false)
                 ->render();
         } else {
-            $html = Li::tag()->class('nav-item dropdown')->content("\n" . $lines . "\n")->encode(false)->render();
+            $html = Li::tag()->class('nav-item dropdown')->content(PHP_EOL . $lines . PHP_EOL)->encode(false)->render();
         }
 
         return $html;

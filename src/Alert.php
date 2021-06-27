@@ -41,7 +41,7 @@ final class Alert extends Widget
 
         return Div::tag()
             ->attributes($new->attributes)
-            ->content("\n" . $new->renderBodyEnd())
+            ->content(PHP_EOL . $new->renderBodyEnd())
             ->encode(false)
             ->render();
     }
@@ -107,7 +107,7 @@ final class Alert extends Widget
      */
     private function renderBodyEnd(): string
     {
-        return $this->body . "\n" . $this->renderCloseButton();
+        return $this->body . PHP_EOL . $this->renderCloseButton();
     }
 
     /**
@@ -125,7 +125,7 @@ final class Alert extends Widget
 
         $new->closeButtonAttribute['type'] = 'button';
 
-        return Button::tag()->attributes($new->closeButtonAttribute)->render() . "\n";
+        return Button::tag()->attributes($new->closeButtonAttribute)->render() . PHP_EOL;
     }
 
     /**
