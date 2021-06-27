@@ -216,11 +216,12 @@ final class Nav extends Widget
 
         /** @var array|string $item */
         foreach ($new->items as $item) {
-            if (isset($item['visible']) && !$item['visible']) {
-                continue;
-            }
+            /** @var bool */
+            $visible = isset($item['visible']) ? $item['visible'] : true;
 
-            $items[] = is_string($item) ? $item : $new->renderItem($item);
+            if ($visible) {
+                $items[] = is_string($item) ? $item : $new->renderItem($item);
+            }
         }
 
         $html = implode("\n", $items);
