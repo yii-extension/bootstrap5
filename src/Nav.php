@@ -11,6 +11,7 @@ use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\A;
 use Yiisoft\Html\Tag\CustomTag;
 use Yiisoft\Html\Tag\Li;
+use Yiisoft\Html\Tag\Span;
 
 use function is_array;
 use function is_string;
@@ -37,7 +38,7 @@ final class Nav extends Widget
             $new->attributes['id'] = "{$new->getId()}-nav";
         }
 
-        Html::addCssClass($new->attributes, ['widget' => 'nav']);
+        Html::addCssClass($new->attributes, 'nav');
 
         return $new->renderItems();
     }
@@ -76,7 +77,7 @@ final class Nav extends Widget
     public function fillAndJustify(): self
     {
         $new = clone $this;
-        Html::addCssClass($new->attributes, ['fillAndJustify' => 'nav-pills nav-fill']);
+        Html::addCssClass($new->attributes, 'nav-pills nav-fill');
         return $new;
     }
 
@@ -88,7 +89,7 @@ final class Nav extends Widget
     public function horizontal(): self
     {
         $new = clone $this;
-        Html::addCssClass($new->attributes, ['horizontal' => 'justify-content-center']);
+        Html::addCssClass($new->attributes, 'justify-content-center');
         return $new;
     }
 
@@ -129,7 +130,7 @@ final class Nav extends Widget
     public function pills(): self
     {
         $new = clone $this;
-        Html::addCssClass($new->attributes, ['pills' => 'nav-pills']);
+        Html::addCssClass($new->attributes, 'nav-pills');
         return $new;
     }
 
@@ -141,7 +142,7 @@ final class Nav extends Widget
     public function tabs(): self
     {
         $new = clone $this;
-        Html::addCssClass($new->attributes, ['tabs' => 'nav-tabs']);
+        Html::addCssClass($new->attributes, 'nav-tabs');
         return $new;
     }
 
@@ -153,7 +154,7 @@ final class Nav extends Widget
     public function vertical(): self
     {
         $new = clone $this;
-        Html::addCssClass($new->attributes, ['vertical' => 'flex-column']);
+        Html::addCssClass($new->attributes, 'flex-column');
         return $new;
     }
 
@@ -186,6 +187,52 @@ final class Nav extends Widget
     }
 
     /**
+     * Check to see if a child item is active optionally activating the parent.
+     *
+     * @param array $items
+     * @param bool $active should the parent be active too
+     *
+     * @return array
+     *
+     * {@see items}
+     */
+    private function isChildActive(array $items, bool &$active = false): array
+    {
+        $new = clone $this;
+
+        /** @var array|string $child */
+        foreach ($items as $i => $child) {
+            /** @var string */
+            $url = isset($child['url']) ? $child['url'] : '#';
+
+            /** @var bool */
+            $active = isset($child['active']) ? $child['active'] : false;
+
+            if ($active === false && is_array($items[$i])) {
+                $items[$i]['active'] = $new->isItemActive($url, $new->currentPath, $new->activateItems);
+            }
+
+            if ($new->activateParents) {
+                $active = true;
+            }
+
+            /** @var array */
+            $childItems = isset($child['items']) ? $child['items'] : [];
+
+            if ($childItems !== [] && is_array($items[$i])) {
+                $items[$i]['items'] = $new->isChildActive($childItems);
+
+                if ($active) {
+                    $items[$i]['attributes'] = ['active' => true];
+                    $active = true;
+                }
+            }
+        }
+
+        return $items;
+    }
+
+    /**
      * Checks whether a menu item is active.
      *
      * This is done by checking if {@see currentPath} match that specified in the `url` option of the menu item. When
@@ -202,6 +249,24 @@ final class Nav extends Widget
     private function isItemActive(string $url, string $currentPath, bool $activateItems): bool
     {
         return ($currentPath !== '/') && ($url === $currentPath) && $activateItems;
+    }
+
+    /**
+     * Renders the given items as a dropdown.
+     *
+     * This method is called to create sub-menus.
+     *
+     * @param array $items the given items. Please refer to {@see Dropdown::items} for the array structure.
+     * @param array $parentItem the parent item information. Please refer to {@see items} for the structure of this
+     * array.
+     *
+     * @return string the rendering result.
+     */
+    private function renderDropdown(array $items, array $parentItem): string
+    {
+        /** @var array */
+        $dropdownAttributes = isset($parentItem['dropdownAttributes']) ? $parentItem['dropdownAttributes'] : [];
+        return Dropdown::widget()->attributes($dropdownAttributes)->items($items)->render();
     }
 
     /**
@@ -273,11 +338,19 @@ final class Nav extends Widget
         /** @var array */
         $urlAttributes = isset($item['urlAttributes']) ? $item['urlAttributes'] : [];
 
+        /** @var string */
+        $icon = $item['icon'] ?? '';
+
+        /** @var array */
+        $iconAttributes = isset($item['iconAttributes']) ? $item['iconAttributes'] : [];
+
         /** @var bool */
         $active = $item['active'] ?? $new->isItemActive($url, $new->currentPath, $new->activateItems);
 
         /** @var bool */
         $disabled = isset($item['disabled']) ? $item['disabled'] : false;
+
+        $itemLabel = $new->renderLabel($itemLabel, $icon, $iconAttributes);
 
         $lines = '';
 
@@ -287,22 +360,22 @@ final class Nav extends Widget
             $lines = $new->renderDropdown($items, $item);
         }
 
-        Html::addCssClass($liAttributes, ['nav' => 'nav-item']);
-        Html::addCssClass($urlAttributes, ['urlAttributes' => 'nav-link']);
+        Html::addCssClass($liAttributes, 'nav-item');
+        Html::addCssClass($urlAttributes, 'nav-link');
 
         if ($new->activateItems && $active) {
             $urlAttributes['aria-current'] = 'page';
-            Html::addCssClass($urlAttributes, ['active' => 'active']);
+            Html::addCssClass($urlAttributes, 'active');
         } elseif ($disabled) {
             $urlAttributes['tabindex'] = '-1';
             $urlAttributes['aria-disabled'] = 'true';
-            Html::addCssClass($urlAttributes, ['disabled' => 'disabled']);
+            Html::addCssClass($urlAttributes, 'disabled');
         }
 
         if ($lines === '') {
             $html = Li::tag()
                 ->attributes($liAttributes)
-                ->content(A::tag()->attributes($urlAttributes)->content($itemLabel)->url($url)->render())
+                ->content(A::tag()->attributes($urlAttributes)->content($itemLabel)->encode(false)->url($url)->render())
                 ->encode(false)
                 ->render();
         } else {
@@ -312,67 +385,25 @@ final class Nav extends Widget
         return $html;
     }
 
-    /**
-     * Renders the given items as a dropdown.
-     *
-     * This method is called to create sub-menus.
-     *
-     * @param array $items the given items. Please refer to {@see Dropdown::items} for the array structure.
-     * @param array $parentItem the parent item information. Please refer to {@see items} for the structure of this
-     * array.
-     *
-     * @return string the rendering result.
-     */
-    private function renderDropdown(array $items, array $parentItem): string
-    {
-        /** @var array */
-        $dropdownAttributes = isset($parentItem['dropdownAttributes']) ? $parentItem['dropdownAttributes'] : [];
-        return Dropdown::widget()->attributes($dropdownAttributes)->items($items)->render();
-    }
+    private function renderLabel(
+        string $label,
+        string $icon,
+        array $iconAttributes = []
+    ): string {
+        $html = '';
 
-    /**
-     * Check to see if a child item is active optionally activating the parent.
-     *
-     * @param array $items
-     * @param bool $active should the parent be active too
-     *
-     * @return array
-     *
-     * {@see items}
-     */
-    private function isChildActive(array $items, bool &$active = false): array
-    {
-        $new = clone $this;
-
-        /** @var array|string $child */
-        foreach ($items as $i => $child) {
-            /** @var string */
-            $url = isset($child['url']) ? $child['url'] : '#';
-
-            /** @var bool */
-            $active = isset($child['active']) ? $child['active'] : false;
-
-            if ($active === false && is_array($items[$i])) {
-                $items[$i]['active'] = $new->isItemActive($url, $new->currentPath, $new->activateItems);
-            }
-
-            if ($new->activateParents) {
-                $active = true;
-            }
-
-            /** @var array */
-            $childItems = isset($child['items']) ? $child['items'] : [];
-
-            if ($childItems !== [] && is_array($items[$i])) {
-                $items[$i]['items'] = $new->isChildActive($childItems);
-
-                if ($active) {
-                    $items[$i]['attributes'] = ['active' => true];
-                    $active = true;
-                }
-            }
+        if ($icon !== '') {
+            $html = Span::tag()
+                ->attributes($iconAttributes)
+                ->content(CustomTag::name('i')->class($icon)->render())
+                ->encode(false)
+                ->render();
         }
 
-        return $items;
+        if ($label !== '') {
+            $html .= $label;
+        }
+
+        return $html;
     }
 }

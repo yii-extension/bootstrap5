@@ -40,17 +40,7 @@ final class NavBar extends Widget
             $new->collapseAttributes['id'] = "{$new->getId()}-collapse";
         }
 
-        if (empty($new->attributes['class'])) {
-            Html::addCssClass($new->attributes, ['widget' => 'navbar', 'navbar-expand-lg', 'navbar-light', 'bg-light']);
-        } else {
-            Html::addCssClass($new->attributes, ['widget' => 'navbar']);
-        }
-
-        if (!isset($new->containerAttributes['class'])) {
-            Html::addCssClass($new->containerAttributes, ['containerAttributes' => 'container-fluid']);
-        }
-
-        Html::addCssClass($new->collapseAttributes, ['collapse' => 'collapse', 'widget' => 'navbar-collapse']);
+        $new->loadDefaultAttributes($new);
 
         return
             Html::openTag('nav', $new->attributes) . PHP_EOL .
@@ -207,6 +197,26 @@ final class NavBar extends Widget
         $new = clone $this;
         $new->togglerContent = $value;
         return $new;
+    }
+
+    /**
+     * Initializes the widget attributes.
+     *
+     * This method sets the default values for various attributes.
+     */
+    private function loadDefaultAttributes(self $new): void
+    {
+        if (empty($new->attributes['class'])) {
+            Html::addCssClass($new->attributes, ['navbar', 'navbar-expand-lg', 'navbar-light', 'bg-light']);
+        } else {
+            Html::addCssClass($new->attributes, 'navbar');
+        }
+
+        if (!isset($new->containerAttributes['class'])) {
+            Html::addCssClass($new->containerAttributes, 'container-fluid');
+        }
+
+        Html::addCssClass($new->collapseAttributes, ['collapse', 'navbar-collapse']);
     }
 
     private function renderBrand(): string

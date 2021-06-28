@@ -6,7 +6,9 @@ namespace Yii\Extension\Bootstrap5;
 
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\Button;
+use Yiisoft\Html\Tag\CustomTag;
 use Yiisoft\Html\Tag\Div;
+use Yiisoft\Html\Tag\Span;
 
 /**
  * Alert renders an alert bootstrap component.
@@ -18,16 +20,18 @@ use Yiisoft\Html\Tag\Div;
  *     ->attributes([
  *         'class' => 'alert-info',
  *     ])
- *     ->body('Say hello...');
+ *     ->message('Say hello...');
  * ```
  *
  * @link https://getbootstrap.com/docs/5.0/components/alerts/
  */
 final class Alert extends Widget
 {
-    private string $body = '';
     private array $closeButtonAttribute = [];
     private bool $closeButtonEnabled = true;
+    private string $icon = '';
+    private array $iconAttributes = [];
+    private string $message = '';
 
     protected function run(): string
     {
@@ -41,24 +45,9 @@ final class Alert extends Widget
 
         return Div::tag()
             ->attributes($new->attributes)
-            ->content(PHP_EOL . $new->renderBodyEnd())
+            ->content(PHP_EOL . $new->renderMessage($new))
             ->encode(false)
             ->render();
-    }
-
-    /**
-     * The body content in the alert component. Alert widget will also be treated as the body content, and will be
-     * rendered before this.
-     *
-     * @param string $value
-     *
-     * @return static
-     */
-    public function body(string $value): self
-    {
-        $new = clone $this;
-        $new->body = $value;
-        return $new;
     }
 
     /**
@@ -89,6 +78,49 @@ final class Alert extends Widget
     }
 
     /**
+     * The icon message in the alert component.
+     *
+     * @param string $value
+     *
+     * @return static
+     */
+    public function icon(string $value): self
+    {
+        $new = clone $this;
+        $new->icon = $value;
+        return $new;
+    }
+
+    /**
+     * The HTML attributes for the icon tag. The following special options are recognized.
+     *
+     * @param array $value
+     *
+     * @return static
+     */
+    public function iconAttributes(array $value): self
+    {
+        $new = clone $this;
+        $new->iconAttributes = $value;
+        return $new;
+    }
+
+    /**
+     * The message content in the alert component. Alert widget will also be treated as the message content, and will be
+     * rendered before this.
+     *
+     * @param string $value
+     *
+     * @return static
+     */
+    public function message(string $value): self
+    {
+        $new = clone $this;
+        $new->message = $value;
+        return $new;
+    }
+
+    /**
      * Disable close button.
      *
      * @return static
@@ -101,13 +133,25 @@ final class Alert extends Widget
     }
 
     /**
-     * Renders the alert body and the close button (if any).
+     * Initializes the widget attributes.
      *
-     * @return string the rendering result
+     * This method sets the default values for various attributes.
      */
-    private function renderBodyEnd(): string
+    private function loadDefaultAttributes(self $new): void
     {
-        return $this->body . PHP_EOL . $this->renderCloseButton();
+        Html::addCssClass($new->attributes, 'alert');
+
+        if ($new->closeButtonEnabled !== false) {
+            $new->closeButtonAttribute['aria-label'] = 'Close';
+            $new->closeButtonAttribute['data-bs-dismiss'] = 'alert';
+
+            Html::addCssclass($new->closeButtonAttribute, 'btn-close');
+            Html::addCssClass($new->attributes, 'alert-dismissible');
+        }
+
+        if (!isset($new->attributes['role'])) {
+            $new->attributes['role'] = 'alert';
+        }
     }
 
     /**
@@ -129,24 +173,26 @@ final class Alert extends Widget
     }
 
     /**
-     * Initializes the widget attributes.
+     * Renders the alert message and the close button (if any).
      *
-     * This method sets the default values for various attributes.
+     * @return string the rendering result
      */
-    private function loadDefaultAttributes(self $new): void
+    private function renderMessage(self $new): string
     {
-        Html::addCssClass($new->attributes, ['widget' => 'alert']);
+        $html = '';
 
-        if ($new->closeButtonEnabled !== false) {
-            $new->closeButtonAttribute['aria-label'] = 'Close';
-            $new->closeButtonAttribute['data-bs-dismiss'] = 'alert';
-
-            Html::addCssclass($new->closeButtonAttribute, ['buttonAttributes' => 'btn-close']);
-            Html::addCssClass($new->attributes, ['alert-dismissible' => 'alert-dismissible']);
+        if ($new->icon !== '') {
+            $html = Span::tag()
+                ->attributes($new->iconAttributes)
+                ->content(CustomTag::name('i')->class($new->icon)->render())
+                ->encode(false)
+                ->render() . PHP_EOL;
         }
 
-        if (!isset($new->attributes['role'])) {
-            $new->attributes['role'] = 'alert';
+        if ($new->message !== '') {
+            $html .= $new->message . PHP_EOL . $new->renderCloseButton();
         }
+
+        return $html;
     }
 }

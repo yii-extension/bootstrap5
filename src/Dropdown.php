@@ -29,7 +29,7 @@ final class Dropdown extends Widget
     {
         $new = clone $this;
 
-        Html::addCssClass($new->attributes, ['widget' => 'dropdown-menu']);
+        Html::addCssClass($new->attributes, 'dropdown-menu');
 
         return $new->renderItems($new);
     }
@@ -133,14 +133,14 @@ final class Dropdown extends Widget
 
                 $itemLabel = $new->renderLabel($itemLabel, $icon, $iconAttributes);
 
-                Html::addCssClass($urlAttributes, ['widget' => 'dropdown-item']);
+                Html::addCssClass($urlAttributes, 'dropdown-item');
 
                 if ($disabled) {
                     $urlAttributes['tabindex'] = '-1';
                     $urlAttributes['aria-disabled'] = 'true';
-                    Html::addCssClass($urlAttributes, ['disabled' => 'disabled']);
+                    Html::addCssClass($urlAttributes, 'disabled');
                 } elseif ($active) {
-                    Html::addCssClass($urlAttributes, ['active' => 'active']);
+                    Html::addCssClass($urlAttributes, 'active');
                 }
 
                 if ($items === []) {

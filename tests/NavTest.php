@@ -301,7 +301,7 @@ final class NavTest extends TestCase
             ->render();
         $expected = <<<'HTML'
         <ul id="w0-nav" class="nav">
-        <li class="nav-item"><a class="nav-link" href="#">Encode &amp;amp; Labels</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Encode &amp; Labels</a></li>
         </ul>
         HTML;
         $this->assertEqualsWithoutLE($expected, $html);
@@ -405,6 +405,45 @@ final class NavTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE($expected, $html);
     }
+
+    public function testRenderItemsIcon(): void
+    {
+        Nav::counter(0);
+
+        $html = Nav::widget()
+            ->currentPath('/page4')
+            ->items([
+
+                    [
+                        'label' => 'Active',
+                        'icon' => 'fas fa-home',
+                        'iconAttributes' => ['class' => 'me-1'],
+                        'url' => '#',
+                        'active' => true,
+                    ],
+                    [
+                        'label' => 'Link',
+                        'icon' => 'fas fa-link',
+                        'iconAttributes' => ['class' => 'me-1'],
+                        'url' => '#',
+                    ],
+                    [
+                        'label' => 'Disabled',
+                        'url' => '#',
+                        'disabled' => true,
+                    ],
+            ])
+            ->render();
+        $expected = <<<'HTML'
+        <ul id="w0-nav" class="nav">
+        <li class="nav-item"><a class="nav-link active" href="#" aria-current="page"><span class="me-1"><i class="fas fa-home"></i></span>Active</a></li>
+        <li class="nav-item"><a class="nav-link" href="#"><span class="me-1"><i class="fas fa-link"></i></span>Link</a></li>
+        <li class="nav-item"><a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a></li>
+        </ul>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $html);
+    }
+
 
     public function testTabs(): void
     {
