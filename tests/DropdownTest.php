@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace Yii\Extension\Bootstrap5\Tests;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use Yii\Extension\Bootstrap5\Dropdown;
+use Yii\Extension\Bootstrap5\Tests\TestSupport\TestTrait;
 
 /**
  * Tests for Dropdown widget.
  */
 final class DropdownTest extends TestCase
 {
+    use TestTrait;
+
     public function testMissingLabel(): void
     {
         $this->expectException(InvalidArgumentException::class);

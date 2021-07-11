@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Bootstrap5\Tests;
 
-use Yii\Extension\Bootstrap5\Tests\Stub\StubWidget;
+use PHPUnit\Framework\TestCase;
+use Yii\Extension\Bootstrap5\Tests\TestSupport\StubWidget;
 
 final class WidgetTest extends TestCase
 {

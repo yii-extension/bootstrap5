@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Bootstrap5\Tests\Stub;
+namespace Yii\Extension\Bootstrap5\Tests\TestSupport;
 
 use Yii\Extension\Bootstrap5\Widget;
 

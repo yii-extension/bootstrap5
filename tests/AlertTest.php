@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Bootstrap5\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Yii\Extension\Bootstrap5\Alert;
+use Yii\Extension\Bootstrap5\Tests\TestSupport\TestTrait;
 
 /**
  * Tests for Alert widget
@@ -13,6 +15,8 @@ use Yii\Extension\Bootstrap5\Alert;
  */
 final class AlertTest extends TestCase
 {
+    use TestTrait;
+
     public function testCloseButtonAttributes(): void
     {
         Alert::counter(0);

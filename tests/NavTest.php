@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Bootstrap5\Tests;
 
+use PHPUnit\Framework\TestCase;
 use InvalidArgumentException;
 use Yii\Extension\Bootstrap5\Nav;
+use Yii\Extension\Bootstrap5\Tests\TestSupport\TestTrait;
 
 /**
  * Tests for Nav widget.
@@ -14,6 +16,8 @@ use Yii\Extension\Bootstrap5\Nav;
  */
 final class NavTest extends TestCase
 {
+    use TestTrait;
+
     /**
      * @link https://github.com/yiisoft/yii2-bootstrap/issues/96
      * @link https://github.com/yiisoft/yii2-bootstrap/issues/157

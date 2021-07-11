@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Bootstrap5\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Yii\Extension\Bootstrap5\Nav;
 use Yii\Extension\Bootstrap5\NavBar;
+use Yii\Extension\Bootstrap5\Tests\TestSupport\TestTrait;
 
 /**
  * Tests for NavBar widget.
@@ -14,6 +16,8 @@ use Yii\Extension\Bootstrap5\NavBar;
  */
 final class NavBarTest extends TestCase
 {
+    use TestTrait;
+
     public function testRender(): void
     {
         NavBar::counter(0);
