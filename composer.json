@@ -1,9 +1,9 @@
 {
     "name": "yii-extension/bootstrap5",
     "type": "library",
-    "description": "Yii Extension Twitter Bootstrap5",
+    "description": "Yii Extension Twitter Bootstrap5.",
     "keywords": [
-        "yii",
+        "yii3",
         "extension",
         "twitter",
         "bootstrap5"

@@ -20,6 +20,8 @@
 composer require yii-extension/bootstrap5
 ```
 
+The widgets do not register any assets, you must register the assets for [Bootstrap5 Css Framework](https://github.com/yii-extension/asset-bootstrap5)
+
 ## Unit testing
 
 The package is tested with [PHPUnit](https://phpunit.de/). To run tests:
@@ -54,5 +56,8 @@ Maintained by [Yii Extension](https://github.com/yii-extension).
 
 ## Support the project
 
-[![Official website](https://img.shields.io/badge/Powered_by-Yii_Framework-green.svg?style=flat)](https://www.yiiframework.com/)
 [![Open Collective](https://img.shields.io/badge/Open%20Collective-sponsor-7eadf1?logo=open%20collective&logoColor=7eadf1&labelColor=555555)](https://opencollective.com/yiisoft)
+
+## Powered by Yii Framework
+
+[![Official website](https://img.shields.io/badge/Powered_by-Yii_Framework-green.svg?style=flat)](https://www.yiiframework.com/)
