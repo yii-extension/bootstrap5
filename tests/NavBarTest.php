@@ -143,7 +143,7 @@ final class NavBarTest extends TestCase
         <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
         <li class="nav-item dropdown">
-        <a id="w3-dropdown" class="nav-link dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Dropdown</a>
+        <a id="w3-dropdown" class="nav-link dropdown-item dropdown-toggle" href data-bs-toggle="dropdown" role="button">Dropdown</a>
         <ul class="dropdown-menu" aria-labelledby="w3-dropdown">
         <a class="dropdown-item" href="#">Action</a>
         <a class="dropdown-item" href="#">Another action</a>

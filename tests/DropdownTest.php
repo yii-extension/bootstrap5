@@ -60,7 +60,7 @@ final class DropdownTest extends TestCase
         <a class="dropdown-item" href="#">Another action</a>
         <a class="dropdown-item" href="#">Something else here</a>
         <div class="dropdown-divider"></div>
-        <a id="w0-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Dropdown</a>
+        <a id="w0-dropdown" class="dropdown-item dropdown-toggle" href data-bs-toggle="dropdown" role="button">Dropdown</a>
         <ul class="dropdown-menu" aria-labelledby="w0-dropdown">
         <h6 class="dropdown-header">Dropdown Options: </h6>
         <div class="dropdown-divider"></div>
@@ -134,9 +134,9 @@ final class DropdownTest extends TestCase
             ->render();
         $expected = <<<'HTML'
         <a class="dropdown-item disabled" href="#" tabindex="-1" aria-disabled="true">Disable</a>
-        <a id="w1-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Dropdown</a>
+        <a id="w1-dropdown" class="dropdown-item dropdown-toggle" href data-bs-toggle="dropdown" role="button">Dropdown</a>
         <ul class="dropdown-menu" aria-labelledby="w1-dropdown">
-        <a id="w0-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Sub-Dropdown 1</a>
+        <a id="w0-dropdown" class="dropdown-item dropdown-toggle" href data-bs-toggle="dropdown" role="button">Sub-Dropdown 1</a>
         <ul class="dropdown-menu" aria-labelledby="w0-dropdown">
         <a class="dropdown-item" href="/page1">Option 1</a>
         <a class="dropdown-item" href="/page2">Option 2</a>
@@ -174,9 +174,9 @@ final class DropdownTest extends TestCase
             ->render();
         $expected = <<<'HTML'
         <a class="dropdown-item disabled" href="#" tabindex="-1" aria-disabled="true">Disable</a>
-        <a id="w1-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Dropdown</a>
+        <a id="w1-dropdown" class="dropdown-item dropdown-toggle" href data-bs-toggle="dropdown" role="button">Dropdown</a>
         <ul class="dropdown-menu" aria-labelledby="w1-dropdown">
-        <a id="w0-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Sub-Dropdown 1</a>
+        <a id="w0-dropdown" class="dropdown-item dropdown-toggle" href data-bs-toggle="dropdown" role="button">Sub-Dropdown 1</a>
         <ul class="testMe dropdown-menu" aria-labelledby="w0-dropdown">
         <a class="dropdown-item" href="/page1">Option 1</a>
         <a class="dropdown-item" href="/page2">Option 2</a>
@@ -217,11 +217,11 @@ final class DropdownTest extends TestCase
             ->render();
         $expected = <<<'HTML'
         <a class="dropdown-item" href="#">Action</a>
-        <a id="w2-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Dropdown</a>
+        <a id="w2-dropdown" class="dropdown-item dropdown-toggle" href data-bs-toggle="dropdown" role="button">Dropdown</a>
         <ul class="dropdown-menu" aria-labelledby="w2-dropdown">
-        <a id="w1-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Level 1</a>
+        <a id="w1-dropdown" class="dropdown-item dropdown-toggle" href data-bs-toggle="dropdown" role="button">Level 1</a>
         <ul class="dropdown-menu" aria-labelledby="w1-dropdown">
-        <a id="w0-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Level 2</a>
+        <a id="w0-dropdown" class="dropdown-item dropdown-toggle" href data-bs-toggle="dropdown" role="button">Level 2</a>
         <ul class="dropdown-menu" aria-labelledby="w0-dropdown">
         <a class="dropdown-item" href="/page1">Option 1</a>
         <a class="dropdown-item" href="/page2">Option 2</a>

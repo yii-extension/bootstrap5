@@ -45,9 +45,9 @@ final class NavTest extends TestCase
         $expected = <<<'HTML'
         <ul id="w0-nav" class="nav">
         <li class="nav-item dropdown">
-        <a id="w2-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Dropdown</a>
+        <a id="w2-dropdown" class="dropdown-item dropdown-toggle" href data-bs-toggle="dropdown" role="button">Dropdown</a>
         <ul class="dropdown-menu" active aria-labelledby="w2-dropdown">
-        <a id="w1-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Sub-dropdown</a>
+        <a id="w1-dropdown" class="dropdown-item dropdown-toggle" href data-bs-toggle="dropdown" role="button">Sub-dropdown</a>
         <ul class="dropdown-menu" active aria-labelledby="w1-dropdown">
         <a class="dropdown-item active" href="#">Page</a>
         </ul>
@@ -277,9 +277,9 @@ final class NavTest extends TestCase
         $expected = <<<'HTML'
         <ul id="w0-nav" class="nav">
         <li class="nav-item dropdown">
-        <a id="w2-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Dropdown</a>
+        <a id="w2-dropdown" class="dropdown-item dropdown-toggle" href data-bs-toggle="dropdown" role="button">Dropdown</a>
         <ul class="dropdown-menu" active aria-labelledby="w2-dropdown">
-        <a id="w1-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Sub-Dropdown-1</a>
+        <a id="w1-dropdown" class="dropdown-item dropdown-toggle" href data-bs-toggle="dropdown" role="button">Sub-Dropdown-1</a>
         <ul class="dropdown-menu" active aria-labelledby="w1-dropdown">
         <a class="dropdown-item active" href="#">Page</a>
         </ul>
@@ -342,14 +342,14 @@ final class NavTest extends TestCase
         <ul id="w0-nav" class="nav">
         <li class="nav-item"><a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disable</a></li>
         <li class="nav-item dropdown">
-        <a id="w1-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Dropdown 1</a>
+        <a id="w1-dropdown" class="dropdown-item dropdown-toggle" href data-bs-toggle="dropdown" role="button">Dropdown 1</a>
         <ul class="dropdown-menu" aria-labelledby="w1-dropdown">
         <a class="dropdown-item active" href="#">Page 1</a>
         <a class="dropdown-item" href="#">Page 2</a>
         </ul>
         </li>
         <li class="nav-item dropdown">
-        <a id="w2-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Dropdown 2</a>
+        <a id="w2-dropdown" class="dropdown-item dropdown-toggle" href data-bs-toggle="dropdown" role="button">Dropdown 2</a>
         <ul class="dropdown-menu" aria-labelledby="w2-dropdown">
         <a class="dropdown-item" href="#">Page 3</a>
         <a class="dropdown-item" href="#">Page 4</a>
@@ -392,14 +392,14 @@ final class NavTest extends TestCase
         <ul id="w0-nav" class="nav">
         <li class="nav-item"><a class="nav-link disabled" href="/disable" tabindex="-1" aria-disabled="true">Disable</a></li>
         <li class="nav-item dropdown">
-        <a id="w1-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Dropdown 1</a>
+        <a id="w1-dropdown" class="dropdown-item dropdown-toggle" href data-bs-toggle="dropdown" role="button">Dropdown 1</a>
         <ul class="dropdown-menu" aria-labelledby="w1-dropdown">
         <a class="dropdown-item" href="/page1">Page 1</a>
         <a class="dropdown-item" href="/page2">Page 2</a>
         </ul>
         </li>
         <li class="nav-item dropdown">
-        <a id="w2-dropdown" class="dropdown-item dropdown-toggle" href="" data-bs-toggle="dropdown" role="button">Dropdown 2</a>
+        <a id="w2-dropdown" class="dropdown-item dropdown-toggle" href data-bs-toggle="dropdown" role="button">Dropdown 2</a>
         <ul class="dropdown-menu" aria-labelledby="w2-dropdown">
         <a class="dropdown-item" href="/page3">Page 3</a>
         <a class="dropdown-item active" href="/page4">Page 4</a>
