@@ -279,7 +279,7 @@ final class NavBar extends Widget
         $new->togglerAttributes['aria-controls'] = $id;
         $new->togglerAttributes['aria-expanded'] = false;
         $new->togglerAttributes['aria-label'] = $new->screenReaderToggleText;
-        $new->togglerAttributes['data-bs-target'] = $id;
+        $new->togglerAttributes['data-bs-target'] = "#$id";
         $new->togglerAttributes['data-bs-toggle'] = 'collapse';
         $new->togglerAttributes['type'] = 'button';
 
