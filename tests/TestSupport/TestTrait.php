@@ -6,9 +6,17 @@ namespace Yii\Extension\Bootstrap5\Tests\TestSupport;
 
 use ReflectionException;
 use ReflectionObject;
+use Yiisoft\Test\Support\Container\SimpleContainer;
+use Yiisoft\Widget\WidgetFactory;
 
 trait TestTrait
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        WidgetFactory::initialize(new SimpleContainer(), []);
+    }
+
     /**
      * Asserting two strings equality ignoring line endings.
      *

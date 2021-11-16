@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Bootstrap5;
 
-use Yii\Extension\Simple\Widget\AbstractWidget;
 use Yiisoft\Html\NoEncodeStringableInterface;
+use Yiisoft\Widget\Widget as AbstractWidget;
 
 abstract class Widget extends AbstractWidget implements NoEncodeStringableInterface
 {
