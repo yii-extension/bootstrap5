@@ -9,31 +9,31 @@ use Yii\Extension\Bootstrap5\Tests\TestSupport\StubWidget;
 
 final class WidgetTest extends TestCase
 {
+    public function testAddAttributes(): void
+    {
+        StubWidget::counter(0);
+        $html = StubWidget::widget()->addAttribute('name', 'test-name')->render();
+        $this->assertSame('<run id="w0" name="test-name">', $html);
+    }
+
     public function testAutoIdPrefix(): void
     {
         StubWidget::counter(0);
-
-        $id = StubWidget::widget()->autoIdPrefix('t')->render();
-
-        $this->assertSame('<run-t0>', $id);
+        $html = StubWidget::widget()->autoIdPrefix('t')->render();
+        $this->assertSame('<run id="t0">', $html);
     }
 
-    public function testGetId(): void
+    public function testGenerateId(): void
     {
         StubWidget::counter(0);
-
-        $id = StubWidget::widget()->render();
-
-        $this->assertSame('<run-w0>', $id);
+        $html = StubWidget::widget()->render();
+        $this->assertSame('<run id="w0">', $html);
     }
 
     public function testId(): void
     {
         StubWidget::counter(0);
-
-        $id = StubWidget::widget()->id('test-2')->withoutAutoGenerateId()->render();
-
-        $this->assertSame('<run-test-2>', $id);
+        $html = StubWidget::widget()->id('test-2')->render();
+        $this->assertSame('<run id="test-2">', $html);
     }
-
 }

@@ -16,23 +16,13 @@ use function array_merge;
 
 /**
  * Dropdown renders a Bootstrap dropdown menu component.
+ *
+ * @link https://getbootstrap.com/docs/5.1/components/dropdowns
  */
 final class Dropdown extends Widget
 {
     private array $items = [];
     private array $submenuAttributes = [];
-
-    /**
-     * @throws ReflectionException
-     */
-    protected function run(): string
-    {
-        $new = clone $this;
-
-        Html::addCssClass($new->attributes, 'dropdown-menu');
-
-        return $new->renderItems($new);
-    }
 
     /**
      * List of menu items in the dropdown. Each array element can be either an HTML string, or an array representing a
@@ -78,12 +68,17 @@ final class Dropdown extends Widget
     }
 
     /**
-     * Renders menu items.
-     *
-     * @throws InvalidArgumentException|ReflectionException if the label option is not specified in one of the items.
-     *
-     * @return string the rendering result.
+     * @throws ReflectionException
      */
+    protected function run(): string
+    {
+        $new = clone $this;
+
+        Html::addCssClass($new->attributes, 'dropdown-menu');
+
+        return $new->renderItems($new);
+    }
+
     private function renderItems(self $new): string
     {
         $lines = [];
@@ -178,7 +173,7 @@ final class Dropdown extends Widget
                         ->submenuAttributes($new->submenuAttributes)
                         ->render();
 
-                    $id = "{$new->getId()}-dropdown";
+                    $id = "{$new->generateId()}-dropdown";
                     $urlAttributes['id'] = $id;
                     $urlAttributes['aria-expanded'] = false;
                     $urlAttributes['data-bs-toggle'] = 'dropdown';

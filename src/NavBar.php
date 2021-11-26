@@ -36,8 +36,8 @@ final class NavBar extends Widget
         $new = clone $this;
 
         if (!isset($new->attributes['id'])) {
-            $new->attributes['id'] = "{$new->getId()}-navbar";
-            $new->collapseAttributes['id'] = "{$new->getId()}-collapse";
+            $new->attributes['id'] = "{$new->generateId()}-navbar";
+            $new->collapseAttributes['id'] = "{$new->generateId()}-collapse";
         }
 
         $new->loadDefaultAttributes($new);
@@ -48,14 +48,6 @@ final class NavBar extends Widget
             $new->renderBrand() .
             $new->renderToggleButton() .
             Html::openTag('div', $new->collapseAttributes) . PHP_EOL;
-    }
-
-    protected function run(): string
-    {
-        return
-            Html::closeTag('div') . PHP_EOL .
-            Html::closeTag('div') . PHP_EOL .
-            Html::closeTag('nav');
     }
 
     /**
@@ -197,6 +189,14 @@ final class NavBar extends Widget
         $new = clone $this;
         $new->togglerContent = $value;
         return $new;
+    }
+
+    protected function run(): string
+    {
+        return
+            Html::closeTag('div') . PHP_EOL .
+            Html::closeTag('div') . PHP_EOL .
+            Html::closeTag('nav');
     }
 
     /**

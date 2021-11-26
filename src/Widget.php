@@ -12,11 +12,27 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     protected array $attributes = [];
     private string $id = '';
     private string $autoIdPrefix = 'w';
-    private bool $autoGenerate = true;
     private static int $counter = 0;
 
     /**
-     * The HTML attributes for the navbar. The following special options are recognized.
+     * Add HTML attribute for key and value.
+     *
+     * @param string $key Attribute name.
+     * @param mixed $value Attribute value.
+     *
+     * @return static
+     */
+    public function addAttribute(string $key, $value): self
+    {
+        $new = clone $this;
+        $new->attributes[$key] = $value;
+        return $new;
+    }
+
+    /**
+     * The HTML attributes for the navbar.
+     *
+     * The following special options are recognized.
      *
      * @param array $value
      *
@@ -69,16 +85,9 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
         self::$counter = $value;
     }
 
-    /**
-     * Disable auto generate id.
-     *
-     * @return static
-     */
-    public function withoutAutoGenerateId(): self
+    protected function getId(): string
     {
-        $new = clone $this;
-        $new->autoGenerate = false;
-        return $new;
+        return $this->id;
     }
 
     /**
@@ -86,14 +95,8 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
      *
      * @return string Id of the widget.
      */
-    protected function getId(): string
+    protected function generateId(): string
     {
-        $new = clone $this;
-
-        if ($new->autoGenerate) {
-            $new->id = $new->autoIdPrefix . static::$counter++;
-        }
-
-        return $new->id;
+        return $this->autoIdPrefix . static::$counter++;
     }
 }

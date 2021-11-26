@@ -30,7 +30,7 @@ final class NavBarTest extends TestCase
             ->brandUrl('/')
             ->begin();
         $html .= NavBar::end();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <nav id="w0-navbar" class="navbar-inverse navbar-static-top navbar-frontend navbar">
         <div class="container-fluid">
         <a class="navbar-brand" href="/">My Company</a>
@@ -122,7 +122,7 @@ final class NavBarTest extends TestCase
                 ],
             ])
             ->render();
-        $html .= <<<'HTML'
+        $html .= <<<HTML
 
         <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -131,7 +131,7 @@ final class NavBarTest extends TestCase
 
         HTML;
         $html .= NavBar::end();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <nav id="w0-navbar" class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
         <a class="navbar-brand" href="/">My Company</a>
@@ -169,7 +169,7 @@ final class NavBarTest extends TestCase
 
         $html = NavBar::widget()->collapseAttributes(['class' => 'testMe'])->begin();
         $html .= NavBar::end();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <nav id="w0-navbar" class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
         <button type="button" class="navbar-toggler" aria-controls="w1-collapse" aria-label="Toggle navigation" data-bs-target="#w1-collapse" data-bs-toggle="collapse">
@@ -189,7 +189,7 @@ final class NavBarTest extends TestCase
 
         $html = NavBar::widget()->brandText('My App')->brandAttributes(['class' => 'text-dark'])->begin();
         $html .= NavBar::end();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <nav id="w0-navbar" class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
         <a class="text-dark navbar-brand" href="/">My App</a>
@@ -210,7 +210,7 @@ final class NavBarTest extends TestCase
 
         $html = NavBar::widget()->screenReaderToggleText('Toggler navigation')->begin();
         $html .= NavBar::end();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <nav id="w0-navbar" class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
         <button type="button" class="navbar-toggler" aria-controls="w1-collapse" aria-label="Toggler navigation" data-bs-target="#w1-collapse" data-bs-toggle="collapse">
@@ -230,7 +230,7 @@ final class NavBarTest extends TestCase
 
         $html = NavBar::widget()->togglerContent('<div class="navbar-toggler-icon"></div>')->begin();
         $html .= NavBar::end();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <nav id="w0-navbar" class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
         <button type="button" class="navbar-toggler" aria-controls="w1-collapse" aria-label="Toggle navigation" data-bs-target="#w1-collapse" data-bs-toggle="collapse">
@@ -250,7 +250,7 @@ final class NavBarTest extends TestCase
 
         $html = NavBar::widget()->togglerAttributes(['class' => 'testMe'])->begin();
         $html .= NavBar::end();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <nav id="w0-navbar" class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
         <button type="button" class="testMe navbar-toggler" aria-controls="w1-collapse" aria-label="Toggle navigation" data-bs-target="#w1-collapse" data-bs-toggle="collapse">
@@ -270,7 +270,7 @@ final class NavBarTest extends TestCase
 
         $html = NavBar::widget()->containerAttributes(['class' => 'text-link'])->begin();
         $html .= NavBar::end();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <nav id="w0-navbar" class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="text-link">
         <button type="button" class="navbar-toggler" aria-controls="w1-collapse" aria-label="Toggle navigation" data-bs-target="#w1-collapse" data-bs-toggle="collapse">

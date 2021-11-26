@@ -19,7 +19,7 @@ use function is_string;
 /**
  * Nav renders a nav HTML component.
  *
- * {@see https://getbootstrap.com/docs/5.0/components/navs-tabs/}
+ * {@see https://getbootstrap.com/docs/5.1/components/navs-tabs/}
  */
 final class Nav extends Widget
 {
@@ -29,19 +29,6 @@ final class Nav extends Widget
     private array $items = [];
     private array $liAttributes = [];
     private bool $withoutContainer = false;
-
-    protected function run(): string
-    {
-        $new = clone $this;
-
-        if (!isset($new->attributes['id'])) {
-            $new->attributes['id'] = "{$new->getId()}-nav";
-        }
-
-        Html::addCssClass($new->attributes, 'nav');
-
-        return $new->renderItems();
-    }
 
     /**
      * Whether to activate parent menu items when one of the corresponding child menu items is active.
@@ -72,7 +59,7 @@ final class Nav extends Widget
     /**
      * @return static
      *
-     * @link https://getbootstrap.com/docs/5.0/components/navs-tabs/#fill-and-justify
+     * @link https://getbootstrap.com/docs/5.1/components/navs-tabs/#fill-and-justify
      */
     public function fillAndJustify(): self
     {
@@ -84,7 +71,7 @@ final class Nav extends Widget
     /**
      * @return static
      *
-     * @link https://getbootstrap.com/docs/5.0/components/navs-tabs/#horizontal-alignment
+     * @link https://getbootstrap.com/docs/5.1/components/navs-tabs/#horizontal-alignment
      */
     public function horizontal(): self
     {
@@ -125,7 +112,7 @@ final class Nav extends Widget
     /**
      * @return static
      *
-     * @link https://getbootstrap.com/docs/5.0/components/navs-tabs/#pills
+     * @link https://getbootstrap.com/docs/5.1/components/navs-tabs/#pills
      */
     public function pills(): self
     {
@@ -137,7 +124,7 @@ final class Nav extends Widget
     /**
      * @return static
      *
-     * @link https://getbootstrap.com/docs/5.0/components/navs-tabs/#tabs
+     * @link https://getbootstrap.com/docs/5.1/components/navs-tabs/#tabs
      */
     public function tabs(): self
     {
@@ -149,7 +136,7 @@ final class Nav extends Widget
     /**
      * @return static
      *
-     * @link https://getbootstrap.com/docs/5.0/components/navs-tabs/#vertical
+     * @link https://getbootstrap.com/docs/5.1/components/navs-tabs/#vertical
      */
     public function vertical(): self
     {
@@ -177,7 +164,7 @@ final class Nav extends Widget
      *
      * @return static
      *
-     * @link https://getbootstrap.com/docs/5.0/components/navs-tabs/#base-nav
+     * @link https://getbootstrap.com/docs/5.1/components/navs-tabs/#base-nav
      */
     public function withoutContainer(): self
     {
@@ -186,16 +173,19 @@ final class Nav extends Widget
         return $new;
     }
 
-    /**
-     * Check to see if a child item is active optionally activating the parent.
-     *
-     * @param array $items
-     * @param bool $active should the parent be active too
-     *
-     * @return array
-     *
-     * {@see items}
-     */
+    protected function run(): string
+    {
+        $new = clone $this;
+
+        if (!isset($new->attributes['id'])) {
+            $new->attributes['id'] = "{$new->generateId()}-nav";
+        }
+
+        Html::addCssClass($new->attributes, 'nav');
+
+        return $new->renderItems();
+    }
+
     private function isChildActive(array $items, bool &$active = false): array
     {
         $new = clone $this;
@@ -232,36 +222,11 @@ final class Nav extends Widget
         return $items;
     }
 
-    /**
-     * Checks whether a menu item is active.
-     *
-     * This is done by checking if {@see currentPath} match that specified in the `url` option of the menu item. When
-     * the `url` option of a menu item is specified in terms of an array, its first element is treated as the
-     * currentPath for the item and the rest of the elements are the associated parameters. Only when its currentPath
-     * and parameters match {@see currentPath}, respectively, will a menu item be considered active.
-     *
-     * @param string $url
-     * @param string $currentPath
-     * @param bool $activateItems
-     *
-     * @return bool whether the menu item is active
-     */
     private function isItemActive(string $url, string $currentPath, bool $activateItems): bool
     {
         return ($currentPath !== '/') && ($url === $currentPath) && $activateItems;
     }
 
-    /**
-     * Renders the given items as a dropdown.
-     *
-     * This method is called to create sub-menus.
-     *
-     * @param array $items the given items. Please refer to {@see Dropdown::items} for the array structure.
-     * @param array $parentItem the parent item information. Please refer to {@see items} for the structure of this
-     * array.
-     *
-     * @return string the rendering result.
-     */
     private function renderDropdown(array $items, array $parentItem): string
     {
         /** @var array */
@@ -269,11 +234,6 @@ final class Nav extends Widget
         return Dropdown::widget()->attributes($dropdownAttributes)->items($items)->render();
     }
 
-    /**
-     * Renders widget items.
-     *
-     * @return string
-     */
     private function renderItems(): string
     {
         $new = clone $this;
@@ -302,15 +262,6 @@ final class Nav extends Widget
         return $html;
     }
 
-    /**
-     * Renders a widget's item.
-     *
-     * @param array $item the item to render.
-     *
-     * @throws InvalidArgumentException
-     *
-     * @return string the rendering result.
-     */
     private function renderItem(array $item): string
     {
         $new = clone $this;

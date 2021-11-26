@@ -42,7 +42,7 @@ final class NavTest extends TestCase
                 ],
             ])
             ->render();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <ul id="w0-nav" class="nav">
         <li class="nav-item dropdown">
         <a id="w2-dropdown" class="dropdown-item dropdown-toggle" href data-bs-toggle="dropdown" role="button">Dropdown</a>
@@ -78,7 +78,7 @@ final class NavTest extends TestCase
                 ],
             ])
             ->render();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <ul id="w0-nav" class="nav">
         <li class="nav-item"><a class="nav-link" href="#">Item1</a></li>
         <li class="nav-item"><a class="nav-link" href="/site/index">Item2</a></li>
@@ -114,7 +114,7 @@ final class NavTest extends TestCase
             ])
             ->fillAndJustify()
             ->render();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <ul id="w0-nav" class="nav-pills nav-fill nav">
         <li class="nav-item"><a class="nav-link active" href="#" aria-current="page">Active</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
@@ -152,7 +152,7 @@ final class NavTest extends TestCase
                 ],
             ])
             ->render();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <ul id="w0-nav" class="justify-content-center nav">
         <li class="nav-item"><a class="nav-link active" href="#" aria-current="page">Active</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
@@ -197,7 +197,7 @@ final class NavTest extends TestCase
             ])
             ->pills()
             ->render();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <ul id="w0-nav" class="nav-pills nav">
         <li class="nav-item"><a class="nav-link active" href="#" aria-current="page">Active</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
@@ -239,7 +239,7 @@ final class NavTest extends TestCase
                 ],
             ])
             ->render();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <ul id="w0-nav" class="nav">
         <li class="nav-item"><a class="nav-link active" href="#" aria-current="page">Active</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
@@ -274,7 +274,7 @@ final class NavTest extends TestCase
                 ],
             ])
             ->render();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <ul id="w0-nav" class="nav">
         <li class="nav-item dropdown">
         <a id="w2-dropdown" class="dropdown-item dropdown-toggle" href data-bs-toggle="dropdown" role="button">Dropdown</a>
@@ -303,7 +303,7 @@ final class NavTest extends TestCase
                 ],
             ])
             ->render();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <ul id="w0-nav" class="nav">
         <li class="nav-item"><a class="nav-link" href="#">Encode &amp; Labels</a></li>
         </ul>
@@ -338,7 +338,7 @@ final class NavTest extends TestCase
                 ],
             ])
             ->render();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <ul id="w0-nav" class="nav">
         <li class="nav-item"><a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disable</a></li>
         <li class="nav-item dropdown">
@@ -388,7 +388,7 @@ final class NavTest extends TestCase
                 ],
             ])
             ->render();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <ul id="w0-nav" class="nav">
         <li class="nav-item"><a class="nav-link disabled" href="/disable" tabindex="-1" aria-disabled="true">Disable</a></li>
         <li class="nav-item dropdown">
@@ -438,7 +438,7 @@ final class NavTest extends TestCase
                     ],
             ])
             ->render();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <ul id="w0-nav" class="nav">
         <li class="nav-item"><a class="nav-link active" href="#" aria-current="page"><span class="me-1"><i class="fas fa-home"></i></span>Active</a></li>
         <li class="nav-item"><a class="nav-link" href="#"><span class="me-1"><i class="fas fa-link"></i></span>Link</a></li>
@@ -476,7 +476,7 @@ final class NavTest extends TestCase
             ])
             ->tabs()
             ->render();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <ul id="w0-nav" class="nav-tabs nav">
         <li class="nav-item"><a class="nav-link active" href="#" aria-current="page">Active</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
@@ -514,7 +514,7 @@ final class NavTest extends TestCase
             ])
             ->vertical()
             ->render();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <ul id="w0-nav" class="flex-column nav">
         <li class="nav-item"><a class="nav-link active" href="#" aria-current="page">Active</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
@@ -552,7 +552,7 @@ final class NavTest extends TestCase
             ])
             ->withoutContainer()
             ->render();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <li class="nav-item"><a class="nav-link active" href="#" aria-current="page">Active</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Link</a></li>

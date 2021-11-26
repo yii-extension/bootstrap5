@@ -55,7 +55,7 @@ final class DropdownTest extends TestCase
                 ],
             ])
             ->render();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <span class=dropdown-item>Action</span>
         <a class="dropdown-item" href="#">Another action</a>
         <a class="dropdown-item" href="#">Something else here</a>
@@ -132,7 +132,7 @@ final class DropdownTest extends TestCase
                 ],
             ])
             ->render();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <a class="dropdown-item disabled" href="#" tabindex="-1" aria-disabled="true">Disable</a>
         <a id="w1-dropdown" class="dropdown-item dropdown-toggle" href data-bs-toggle="dropdown" role="button">Dropdown</a>
         <ul class="dropdown-menu" aria-labelledby="w1-dropdown">
@@ -172,7 +172,7 @@ final class DropdownTest extends TestCase
             ])
             ->submenuAttributes(['class' => 'testMe'])
             ->render();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <a class="dropdown-item disabled" href="#" tabindex="-1" aria-disabled="true">Disable</a>
         <a id="w1-dropdown" class="dropdown-item dropdown-toggle" href data-bs-toggle="dropdown" role="button">Dropdown</a>
         <ul class="dropdown-menu" aria-labelledby="w1-dropdown">
@@ -215,7 +215,7 @@ final class DropdownTest extends TestCase
                 ],
             ])
             ->render();
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <a class="dropdown-item" href="#">Action</a>
         <a id="w2-dropdown" class="dropdown-item dropdown-toggle" href data-bs-toggle="dropdown" role="button">Dropdown</a>
         <ul class="dropdown-menu" aria-labelledby="w2-dropdown">

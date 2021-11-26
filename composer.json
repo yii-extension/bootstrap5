@@ -12,7 +12,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^7.4|^8.0",
+        "php": ">=8.0",
         "yii-extension/asset-bootstrap5": "^1.0",
         "yiisoft/html": "^2.0",
         "yiisoft/widget": "^3.0@dev"
