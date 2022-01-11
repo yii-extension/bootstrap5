@@ -15,7 +15,7 @@
         "php": ">=8.0",
         "yii-extension/asset-bootstrap5": "^1.0",
         "yiisoft/html": "^2.0",
-        "yiisoft/widget": "^3.0@dev"
+        "yiisoft/widget": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
@@ -40,6 +40,11 @@
         }
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "infection/extension-installer": true,
+            "foxy/foxy": true
+        }
     }
 }
